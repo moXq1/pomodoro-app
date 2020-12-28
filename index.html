@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Pomodoro app</title>
+  </head>
+  <body>
+    <header>
+      <img src="assets/logo.svg" alt="logo" class="logo" />
+      <div class="timers">
+        <ul>
+          <li class="timer">
+            <button class="timer__btn timer__btn-active" data-timer="pomodoro">
+              pomodoro
+            </button>
+          </li>
+          <li class="timer">
+            <button class="timer__btn" data-timer="short">short break</button>
+          </li>
+          <li class="timer">
+            <button class="timer__btn" data-timer="long">long break</button>
+          </li>
+        </ul>
+      </div>
+      <div class="clock">
+        <div class="clock__container">
+          <svg viewbox="0 0 100 100" width="339px" height="339px">
+            <circle cx="50" cy="50" r="45" />
+          </svg>
+        </div>
+        <h1 class="time"></h1>
+        <h3>start</h3>
+      </div>
+      <div class="settings">
+        <img src="assets/icon-settings.svg" alt="settings icon" />
+      </div>
+    </header>
+
+    <div class="modal modal-hideout">
+      <div class="head">
+        <h2>Settings</h2>
+        <div class="close">
+          <img src="assets/icon-close.svg" alt="close button" />
+        </div>
+      </div>
+      <form>
+        <div class="modal__timers">
+          <h4>time (minutes)</h4>
+
+          <div class="wrap">
+            <label for="pomo">
+              pomodoro
+              <input
+                type="number"
+                name="pomodoro"
+                id="pomo"
+                min="1"
+                max="60"
+                value="25"
+              />
+              <div class="btn-add"></div>
+              <div class="btn-subs"></div>
+            </label>
+            <label for="short">
+              short break
+              <input
+                type="number"
+                name="short"
+                id="short"
+                min="1"
+                max="60"
+                value="5"
+              />
+              <div class="btn-add"></div>
+              <div class="btn-subs"></div>
+            </label>
+            <label for="long">
+              long break
+              <input
+                type="number"
+                name="long"
+                id="long"
+                min="1"
+                max="60"
+                value="10"
+              />
+              <div class="btn-add"></div>
+              <div class="btn-subs"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal__fonts">
+          <h4>font</h4>
+          <div class="wrap">
+            <input type="radio" name="font" id="Kumbh" checked />
+            <label for="Kumbh" class="Kumbh" data-font="Kumbh Sans"> </label>
+            <input type="radio" name="font" id="Roboto" />
+            <label for="Roboto" class="Roboto" data-font="Mono Space"> </label>
+            <input type="radio" name="font" id="Mono" />
+            <label for="Mono" class="Mono" data-font="Roboto Slab"> </label>
+          </div>
+        </div>
+        <div class="modal__colors">
+          <h4>color</h4>
+          <div class="wrap">
+            <input type="radio" name="color" id="red" checked />
+            <label for="red" class="red" data-color="#f87070"></label>
+
+            <input type="radio" name="color" id="blue" />
+            <label for="blue" class="blue" data-color="#70f3f8"></label>
+
+            <input type="radio" name="color" id="purple" />
+            <label for="purple" class="purple" data-color="#d881f8"></label>
+          </div>
+        </div>
+        <input type="button" value="Apply" class="btn-sub" />
+      </form>
+    </div>
+
+    <!-- start pause restart Settings Time (minutes) pomodoro short break long break
+    Font Color Apply -->
+
+    <script src="script.js"></script>
+  </body>
+</html>

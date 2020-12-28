@@ -19,14 +19,17 @@ body {
   color: #d7e0ff;
   font-family: "Kumbh Sans", sans-serif;
   font-weight: 700;
+  width: 100vw;
+  overflow: hidden;
 }
 
 header {
   display: grid;
   place-content: center;
   height: 100vh;
-  gap: 2rem;
+  gap: 4rem;
   place-items: center;
+  overflow: hidden;
 }
 
 .timers {
@@ -55,9 +58,17 @@ ul {
   transition: all 0.5s ease;
   outline: none;
 
+  &:hover {
+    color: white;
+  }
+
   &-active {
     color: #1e213f;
     background-color: $color-red;
+
+    &:hover {
+      color: #1e213f;
+    }
   }
 }
 
@@ -84,6 +95,11 @@ h3 {
   left: 52%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  transition: color 0.5s ease;
+
+  &:hover {
+    color: white;
+  }
 }
 
 h4 {
@@ -111,6 +127,22 @@ svg {
   stroke-width: 3px;
   stroke: $color-red;
   fill: $color-dark;
+  transform: rotate(-90deg) rotatex(180deg);
+}
+
+.anim {
+  animation-name: stroke-anim;
+  animation-timing-function: linear;
+  animation-play-state: paused;
+}
+
+@keyframes stroke-anim {
+  0% {
+    stroke-dasharray: 285, 285;
+  }
+  100% {
+    stroke-dasharray: 0, 285;
+  }
 }
 
 img {
@@ -235,6 +267,7 @@ img {
       color: $primary-background;
       display: flex;
       flex-direction: column;
+      position: relative;
 
       & input {
         margin-top: 5px;
@@ -329,4 +362,98 @@ input[type="button"] {
 
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+.btn-add,
+.btn-subs {
+  position: absolute;
+  width: 15px;
+  height: 10px;
+  background-repeat: no-repeat;
+  opacity: 0.25;
+  transition: all 0.5s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.btn-add {
+  right: 15%;
+  top: 40%;
+  background-image: url("./assets/icon-arrow-up.svg");
+}
+
+.btn-subs {
+  right: 15%;
+  top: 70%;
+  background-image: url("./assets/icon-arrow-down.svg");
+}
+
+@media (max-width: 560px) {
+  .modal {
+    height: 570px;
+    width: 300px;
+  }
+
+  .modal__timers .wrap {
+    flex-direction: column;
+  }
+
+  .modal__timers label {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn-add,
+  .btn-subs {
+    right: 8%;
+  }
+
+  .btn-add {
+    top: 35%;
+  }
+  .btn-subs {
+    top: 65%;
+  }
+
+  .modal__fonts,
+  .modal__colors {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .timer__btn {
+    width: 100px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .time {
+    font-size: 80px;
+    line-height: 105px;
+  }
+
+  h3 {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 13px;
+  }
+
+  .timers {
+    padding: 0;
+  }
+}
+@media (max-width: 420px) {
+  svg {
+    width: 250px;
+    height: 250px;
+  }
+}
+@media (max-height: 690px) {
+  header {
+    gap: 1rem;
+  }
 }

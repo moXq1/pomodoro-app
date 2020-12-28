@@ -3,6 +3,9 @@ const button_submit = document.querySelector(".btn-sub");
 const form = document.querySelector("form");
 const time = document.querySelector(".time");
 const phase = document.querySelector("h3");
+const close = document.querySelector(".close");
+const svg = document.querySelector("svg");
+
 let currentTimer = "pomodoro";
 let timer;
 
@@ -22,7 +25,7 @@ window.addEventListener("load", () => {
   time.textContent = `${settings.pomodoro}:${sec}`;
 });
 
-document.querySelector(".close").addEventListener("click", () => {
+close.addEventListener("click", () => {
   modal.classList.add("modal-hideout");
 });
 
@@ -48,6 +51,7 @@ document.querySelector("ul").addEventListener("click", (e) => {
   Array.from(document.querySelectorAll(".timer__btn")).forEach((el) => {
     el.classList.remove("timer__btn-active");
     el.style.backgroundColor = "inherit";
+    svg.classList.remove("anim");
   });
 
   target.classList.add("timer__btn-active");
@@ -76,7 +80,11 @@ document
 phase.addEventListener("click", (e) => {
   if (settings.state === "paused") {
     e.target.textContent = "pause";
-
+    //  document.querySelector('svg').style
+    svg.classList.add("anim");
+    svg.style.animationDuration = `${settings[currentTimer] * 60}s`;
+    svg.style.animationPlayState = "running";
+    //  settings[document.querySelector(".timer__btn-active").dataset.timer]
     settings.state = "started";
     if (settings.sec === 0 && settings.min === 0) {
       interval(settings[currentTimer] * 60);
@@ -85,10 +93,16 @@ phase.addEventListener("click", (e) => {
     }
   } else if (settings.state === "started") {
     clearInterval(timer);
+    svg.style.animationPlayState = "paused";
     settings.state = "paused";
     e.target.textContent = "start";
   } else if (settings.state === "ended") {
     interval(settings[currentTimer] * 60);
+    e.target.textContent = "pause";
+    svg.style.animationDuration = `${settings[currentTimer] * 60}s`;
+    svg.style.animationPlayState = "running";
+    settings.state = "started";
+    svg.classList.add("anim");
   }
 });
 
@@ -105,6 +119,8 @@ function interval(t) {
       clearInterval(timer);
       settings.state = "ended";
       phase.textContent = "restart";
+      svg.classList.remove("anim");
+      timeOver();
     }
     t--;
   };
@@ -112,8 +128,56 @@ function interval(t) {
   timer = setInterval(tick, 1000);
 }
 
+document
+  .querySelector(".modal__timers .wrap")
+  .addEventListener("click", (e) => {
+    if (!e.target.className) return;
+    const add = e.target.closest("btn-add");
+    const sub = e.target.closest("btn-subs");
+    const label = e.target.closest("label");
+
+    if (!label) return;
+
+    const input = label.querySelector("input");
+    input.focus();
+    if (e.target.className === "btn-add" && input) {
+      input.value = +input.value + 1;
+    } else if (e.target.className === "btn-subs") {
+      input.value = +input.value - 1;
+    }
+
+    input.blur();
+  });
+
 Array.from(document.querySelectorAll("input[type=number]")).forEach((el) => {
-  el.addEventListener("change", (e) => {
-    console.log(e.target);
+  el.addEventListener("blur", (e) => {
+    if (+e.target.value <= +e.target.max && +e.target.value > 0) {
+      e.target.style.backgroundColor = "";
+      e.target.style.border = "";
+      button_submit.style.pointerEvents = "";
+      close.style.pointerEvents = "";
+
+      change(e.target.name, e.target.value);
+    } else {
+      e.target.focus();
+      e.target.style.border = "1px solid red";
+      button_submit.style.pointerEvents = "none";
+      close.style.pointerEvents = "none";
+    }
   });
 });
+
+function change(timer, value) {
+  settings[timer] = +value;
+  let min = settings[currentTimer];
+  time.textContent = `${min.toString().padStart(2, 0)}:00`;
+}
+
+function timeOver() {
+  const audio = document.createElement("audio");
+  audio.style.visibility = "hidden";
+  audio.src = "./assets/ding_AOS01920.mp3";
+  document.body.insertAdjacentElement("afterend", audio);
+  audio.play();
+  audio.onended = () => audio.remove();
+}
